@@ -67,8 +67,8 @@ mv /home/q-e-qe-7.5/ /opt
 sudo cat > /etc/profile.d/yambo.sh << 'EOF'
 #!/bin/bash
 # Yambo environment settings
-export QE_HOME=/opt/yambo-5.3.0
-export PATH=$QE_HOME/bin:$PATH
+export YAMBO_HOME=/opt/yambo-5.3.0
+export PATH=$YAMBO_HOME/bin:$PATH
 EOF
 sudo chmod +x /etc/profile.d/yambo.sh
 ## 3. QE配置
