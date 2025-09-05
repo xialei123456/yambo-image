@@ -66,7 +66,7 @@ mv /home/q-e-qe-7.5/ /opt
 ## 2. Yambo配置
 sudo cat > /etc/profile.d/yambo.sh << 'EOF'
 #!/bin/bash
-# Quantum ESPRESSO environment settings
+# Yambo environment settings
 export QE_HOME=/opt/yambo-5.3.0
 export PATH=$QE_HOME/bin:$PATH
 EOF
