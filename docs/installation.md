@@ -1,6 +1,6 @@
 # 一、环境准备
 
-### 更新系统并安装依赖
+### 更新并安装依赖库
 ```
 sudo yum update -y
 sudo yum install -y wget gcc-gfortran make cmake
