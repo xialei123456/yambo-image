@@ -38,11 +38,37 @@ make core
 make all
 ```
 
-# 三、 为Yambo配置系统环境变量并删除多余文件
+# 三、 安装Quantum Espresso（QE）
+### 1. 安装环境准备
+```
+sudo yum install -y wget git m4 make cmake autoconf gcc-gfortran
+sudo yum install -y openmpi openmpi-devel
+```
+### 2. 源码下载与解压，这里我们在`\home`目录下为例
+```
+cd /home
+wget https://gitlab.com/QEF/q-e/-/archive/qe-7.5/q-e-qe-7.5.tar.gz
+tar -xzf q-e-qe-7.5.tar.gz
+```
+### 3. 编译安装
+```
+cd q-e-qe-7.5
+./configure
+make all
+```
+如果make过程中对某一依赖库的git下载遇到问题，可以手动下载并将其解压至external下的相应目录内，然后再次make all，可参考下面的命令
+```
+tar -xzf ../archive/lapack-3.6.1.tar.gz -C ./external/lapack --strip-components 1
+tar -xzf ../archive/libmbd-0.12.8.tar.gz -C ./external/mbd --strip-components 1
+tar -xzf ../archive/wannier90-3.1.0.tar.gz -C ./external/wannier90 --strip-components 1
+```
+
+# 四、 为Yambo与QE配置系统环境变量并删除多余文件
 ### 1. 创建目录，移动可执行文件
 ```
 mkdir /opt/yambo-5.3.0
 mv /home/yambo-5.3.0/bin /opt/yambo-5.3.0
+mv /home/q-e-qe-7.5/ /opt
 ```
 ### 2. Yambo配置
 ```
@@ -53,12 +79,20 @@ export PATH=$YAMBO_HOME/bin:$PATH
 EOF
 sudo chmod +x /etc/profile.d/yambo.sh
 ```
-### 3. 激活配置，删除压缩包和多余文件
+### 3. QE配置
+```
+sudo cat > /etc/profile.d/quantum.sh << 'EOF'
+#!/bin/bash
+# Quantum ESPRESSO environment settings
+export QE_HOME=/opt/q-e-qe-7.5
+export PATH=$QE_HOME/bin:$PATH
+EOF
+sudo chmod +x /etc/profile.d/quantum.sh
+```
+### 4. 激活配置，删除压缩包和多余文件
 ```
 source /etc/profile
 rm /home/yambo-5.3.0.tar.gz
 rm -rf /home/yambo-5.3.0
+rm /home/q-e-qe-7.5.tar.gz
 ```
-Yambo软件使用可参考官方教程：https://wiki.yambo-code.eu/wiki/index.php?title=Tutorials
-
-PS:用于实际计算使用时，Yambo软件一般需要与基础泛函计算软件如Quantum ESPRESSO或ABINIT结合使用。
