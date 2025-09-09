@@ -135,5 +135,6 @@ gnuplot> q
 运行目录下，可查看result.jpg如下所示：
 ![test_res.jpg](images/test_res.jpg)
 ## 参考文档
--[Yambo官方wiki教程](https://wiki.yambo-code.eu/wiki/index.php?title=Tutorials)
+- [Yambo官方wiki教程](https://wiki.yambo-code.eu/wiki/index.php?title=Tutorials)
+
 
