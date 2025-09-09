@@ -35,7 +35,7 @@
 | 镜像规格 | 特性说明 | 备注 |
 |--------------------------------------------------------------------------------------------------------------| --- | --- |
 | [Yambo-5.3.0-kunpeng](https://github.com/HuaweiCloudDeveloper/yambo-image/tree/Yambo-5.3.0-kunpeng) | 基于鲲鹏服务器 + Huawei Cloud EulerOS 2.0 64bit 安装部署 |  |
-| [Yambo-5.3.0-QE-7.5-kunpeng](https://github.com/HuaweiCloudDeveloper/yambo-image/tree/Yambo-5.3.0-kunpeng) | 基于鲲鹏服务器 + Huawei Cloud EulerOS 2.0 64bit 安装部署 | 同时部署了Quantum ESPRESSO软件 |
+| [Yambo-5.3.0-QE-7.5-kunpeng](https://github.com/HuaweiCloudDeveloper/yambo-image/tree/Yambo-5.3.0-QE-7.5-kunpeng) | 基于鲲鹏服务器 + Huawei Cloud EulerOS 2.0 64bit 安装部署 | 同时部署了Quantum ESPRESSO软件 |
 ## 获取帮助
 - 更多问题可通过 [issue](https://github.com/HuaweiCloudDeveloper/yambo-image/issues) 或 华为云云商店指定商品的服务支持 与我们取得联系
 - 其他开源镜像可看 [open-source-image-repos](https://github.com/HuaweiCloudDeveloper/open-source-image-repos)
