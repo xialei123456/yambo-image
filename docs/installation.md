@@ -28,7 +28,7 @@ sed -i '30c
 \t( cmake -DCMAKE_C_COMPILER=$(cc) -DCMAKE_Fortran_COMPILER=$(fc) -DCMAKE_INSTALL_PREFIX=$(LIBPATH) -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_LIBDIR=lib .. ) >> ${compdir}/log/config_$(PACKAGE)_shared.log 2>&1 ; \\' "$file"
 ```
 ### 3. 配置与编译安装,指定CPPFLAGS以正确预处理。
-`make core`会自动下载未指定的所需依赖库，如遇网络问题，可以手动下载并移动至lib/archives目录下，库名和版本可参考该目录下的package.list文件。
+`make core`会自动下载未指定的所需依赖库，如遇网络问题，可以手动下载并移动至`lib/archives`目录下，库名和版本可参考该目录下的package.list文件。
 ```
 ./configure CPPFLAGS="-P"
 make core
