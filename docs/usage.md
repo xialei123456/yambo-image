@@ -38,7 +38,6 @@ Yambo是一个基于多体微扰理论和时间依赖密度泛函理论的材料
 选择服务器规格
 ![ECS_conf_2.png](images/ECS_conf_2.png)
 选择镜像规格
-
 ![ECS_conf_3](images/ECS_conf_3.png)
 其他参数根据实际情况进行填写，填写完成之后，点击立即购买即可
 ![ECS_conf_4.png](images/ECS_conf_4.png)
@@ -54,6 +53,87 @@ Yambo是一个基于多体微扰理论和时间依赖密度泛函理论的材料
 # 五、商品使用
 
 ## Yambo使用
+基于第一性原理，Yambo软件以基础泛函理论（DFT）为基础，通过多体物理理论计算更加精确的材料电子激发特性与光学响应特性。因此，在实际工作中需要基于DFT计算软件，如Quantum ESPRESSO（QE）或ABINIT生成的数据作为程序输入文件。
 
+本商品有两种规格，对于Yambo-5.3.0-kunpeng-HCE镜像，需要准备好DFT计算后的数据文件。本规格Yambo-5.3.0-QE-7.3-kunpeng-HCE镜像打包了QE软件，下面的示例演示中涉及DFT数据生成部分以本规格为准。
 
+### 数据准备
+登录服务器，进入命令行，下载解压官方提供的示例数据：
+```
+$ wget https://media.yambo-code.eu/educational/tutorials/files/hBN.tar.gz
+$ tar -xzf hBN.tar.gz
+```
+### DFT计算
+进入PWSCF文件夹，执行SCF与非SCF计算：
+```
+$ cd hBN/PWSCF
+$ pw.x < hBN_nscf.in > hBN_scf.out
+$ pw.x < hBN_nscf.in > hBN_nscf.out
+```
+此时您将获得hBN.save文件夹：
+```
+$ ls hBN.save
+data-file.xml charge-density.dat gvectors.dat B.pz-vbc.UPF N.pz-vbc.UPF
+K00001	K00002 .... 	K00035	K00036
+```
+使用Yambo的p2y命令，将DFT计算后的输出文件转换为Yambo的格式：
+```
+$ cd hBN.save
+$ p2y
+```
+您已经完成了Yambo输入数据的生成，位于SAVE目录下，可使用-D命令查看：
+```
+$ yambo -D
+[RD./SAVE//ns.db1]------------------------------------------
+Bands                           : 100
+K-points                        : 14
+G-vectors             [RL space]:  8029
+Components       [wavefunctions]: 1016
+...
+[RD./SAVE//ns.wf]-------------------------------------------
+Fragmentation                    :yes
+...
+[RD./SAVE//ns.kb_pp_pwscf]----------------------------------
+Fragmentation                    :yes
+- S/N 006626 -------------------------- v.04.01.02 r.00000 -
+```
+### Yambo初始化
+这里，我们使用官方准备的`SAVE`文件夹进行演示，在其上级文件夹输入`yambo`指令。运行目录下将生成报告文件`r_setup`，`SAVE`文件夹下将生成两个新文件：`ndb.gops`，`ndb.kindx`。
+```
+$ cd ../../YAMBO
+$ yambo
+<---> [01] MPI/OPENMP structure, Files & I/O Directories
+<---> [02] CORE Variables Setup
+<---> [02.01] Unit cells
+<---> [02.02] Symmetries
+<---> [02.03] Reciprocal space
+…
+<---> [04] Timing Overview
+<---> [05] Memory Overview
+<---> [06] Game Over & Game summary
+```
+### 粒子光谱计算
+初始化后，输入yambo -F yambo.in_IP -o c命令，将创建并打开配置文件。对配置文件进行修改，如下所示：
+```
+% QpntsRXd
+ 1 |  1 |                   # [Xd] Transferred momenta
+%
+ETStpsXd= 1001               # [Xd] Total Energy steps
+```
+保存退出后，执行yambo -F yambo.in_IP -J Full命令生成平滑光谱；然后执行yambo -F yambo.in_IP -J 6Ry -V RL -o c，更改下面一行的参数后，再执行yambo -F yambo.in_IP -J 6Ry对能量进行截断重新计算。
+```
+FFTGvecs= 6           Ry    # [FFT] Plane-waves
+```
+您可以使用gnuplot（可使用sudo yum install gnuplot安装）对结果进行绘制并保存：
+```
+$ gnuplot
+gnuplot> set terminal jpg
+gnuplot> set output 'result.jpg'
+gnuplot> plot "o-Full.eps_q1_ip" w l,"o-6Ry.eps_q1_ip" w p
+gnuplot> q
+```
+运行目录下，可查看result.jpg如下所示：
+![test_res.jpg](images/test_res.jpg)
 ## 参考文档
+-[Yambo官方wiki教程](https://wiki.yambo-code.eu/wiki/index.php?title=Tutorials)
+
