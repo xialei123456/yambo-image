@@ -133,7 +133,7 @@ gnuplot> plot "o-Full.eps_q1_ip" w l,"o-6Ry.eps_q1_ip" w p
 gnuplot> q
 ```
 运行目录下，可查看result.jpg如下所示：
-![test_res.jpg](images/test_res.jpg)
+![test_res.jpg]((https://github.com/xialei123456/yambo-image/blob/45e944b355383ab442b68c4550cae9a94d1326c5/docs/images/test_res.jpg)
 ## 参考文档
 - [Yambo官方wiki教程](https://wiki.yambo-code.eu/wiki/index.php?title=Tutorials)
 
